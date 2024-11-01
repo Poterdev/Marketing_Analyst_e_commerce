@@ -70,21 +70,9 @@ A análise utilizou Python com Pandas para processamento de dados, incluindo:
 - Cálculo de métricas derivadas
 - Agregação e agrupamento
 
-## 💪 Pontos Fortes da Análise
-- Cobertura abrangente das principais métricas de negócios
-- Passos claros de processamento de dados
-- Insights em várias dimensões de negócios
-- Sugestões para análises futuras
-
-## 🔧 Potenciais Melhorias
-- Segmentação de clientes mais detalhada
-- Análise de séries temporais de vendas
-- Análise mais profunda do desempenho de produtos
-- Visualização das principais métricas (sugestão de criação de dashboard)
-
 ## 🏁 Conclusões
 
-Esta é uma análise inicial robusta que fornece insights valiosos sobre o desempenho do negócio de e-commerce, oferecendo uma base sólida para a tomada de decisões estratégicas em vendas, marketing e operações.
+Está é uma analise inicial para futura criação de um dashboard em power bi...aguarde para mais detalhes
 
 ## 🌐 Redes Sociais
 
