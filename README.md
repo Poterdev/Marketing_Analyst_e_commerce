@@ -2,6 +2,10 @@
 
 Este repositório contém uma análise exploratória de dados (EDA) de um conjunto de dados de e-commerce, conduzida por Erickson Santos. A análise foca em várias métricas e insights importantes para o negócio de e-commerce.
 
+## Arquivos
+"capstone_data_cleaned.csv"
+"marketing_analyst_e_commerce.py"
+
 ## 🔍 Visão Geral da Análise
 
 O script realiza uma análise abrangente de um conjunto de dados de e-commerce, abordando múltiplos aspectos do negócio, incluindo desempenho de vendas, métricas de entrega, insights geográficos, análise de produtos e insights de clientes.
@@ -26,19 +30,19 @@ O script realiza uma análise abrangente de um conjunto de dados de e-commerce, 
 
 ### 3. Insights Geográficos
 - **Principais Estados por Vendas**:
-  1. São Paulo (SP): 46.713 vendas
-  2. Rio de Janeiro (RJ): 14.260 vendas
-  3. Minas Gerais (MG): 12.966 vendas
+  - São Paulo (SP): 46.713 vendas
+  - Rio de Janeiro (RJ): 14.260 vendas
+  - Minas Gerais (MG): 12.966 vendas
 - **Top 3 Cidades**:
-  1. São Paulo: 17.522 vendas
-  2. Rio de Janeiro: 7.615 vendas
-  3. Belo Horizonte: 3.120 vendas
+  - São Paulo: 17.522 vendas
+  - Rio de Janeiro: 7.615 vendas
+  - Belo Horizonte: 3.120 vendas
 
 ### 4. Análise de Produtos
 - **Categorias Mais Populares**:
-  1. 🧸 Brinquedos: 83.096 vendas
-  2. 💄 Saúde e Beleza: 3.003 vendas
-  3. 🛏️ Cama, Mesa e Banho: 2.669 vendas
+  - 🧸 Brinquedos: 83.096 vendas
+  - 💄 Saúde e Beleza: 3.003 vendas
+  - 🛏️ Cama, Mesa e Banho: 2.669 vendas
 - **Categorias com Maior Preço Médio**:
   - 💻 Computadores: R$ 655,12
   - 🛋️ Móveis - Colchões e Estofados: R$ 249,00
