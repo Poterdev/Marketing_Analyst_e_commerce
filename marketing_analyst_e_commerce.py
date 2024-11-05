@@ -99,6 +99,7 @@ Este conjunto de dados contém informações cruciais para o monitoramento de um
 - **Etapa:4** - Limpeza dos dados
 - **Etapa:5** - Exploratory Data Analysis (EDA)
 - **Etapa:6** - Concluções e métricas
+- **Etapa:7** - Engenharia de recursos
 
 <h1 style="font-size: 48px;">Etapa:1 - Importar as bibliotecas nescessárias </h1>
 """
@@ -455,4 +456,95 @@ Com os dados acima podemos ter uma base sobre o nosso e-commerce em analise, com
 - **Desempenho de Produtos por Região**: Entender se determinadas categorias, como Saúde e Beleza ou Eletrodomésticos, apresentam melhor desempenho em certas regiões poderia permitir campanhas de marketing regionais mais direcionadas.
 
 - **Correlação entre Método de Pagamento e Ticket Médio**: Explorar como a preferência de método de pagamento varia com o ticket médio ou com a categoria pode ajudar a criar estratégias para promover certas opções de pagamento, como carteiras digitais, para compras de valor menor.
+
+<h1 style="font-size: 48px;"> Etapa:7 - Engenharia de recursos </h1>
+"""
+
+
+
+"""Neste tópico vamos tratar alguns dados para deixar o arquivo limpo e pronto para criação do dashboar, abaixo vou listar cada processo:
+
+- Data: Transforar as colunas em data para extrair informaçãoes como Ano, mes, tempo de entrega e coluna data %d/%mes/%ano;
+- Coluna de tempo de entrega
+- Coluna status de entrega
+- Coluna Faixa de valor de pedido
+- Padronizar nome das colunas
+- Criar regiões baseada nos estados
+
+
+
+"""
+
+df.head()
+
+#Transformando as colunas em datas
+df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'])
+df['order_approved_at'] = pd.to_datetime(df['order_approved_at'])
+df['order_delivered_timestamp'] = pd.to_datetime(df['order_delivered_timestamp'])
+df['order_estimated_delivery_date'] = pd.to_datetime(df['order_estimated_delivery_date'])
+
+#ano da aprovação do pedido
+df['Ano_Compra'] = df['order_approved_at'].dt.year
+
+#mes da aprovação do pedido
+df['Mes_Compra'] = df['order_approved_at'].dt.month
+
+#extrair %d/%mes/%ano
+df['Data_Compra'] = df['order_approved_at'].dt.strftime('%d/%m/%Y')
+
+#criando uma coluna de tempo de entrega
+df['Tempo_Entrega'] = (df['order_delivered_timestamp'] - df['order_purchase_timestamp']).dt.total_seconds() / 86400
+df['Tempo_Entrega'] = df['Tempo_Entrega'].astype(int)
+
+#tempo de entrega maior que 15 atrasado e menor no prazo
+df['Pedido_atrasado'] = df['Tempo_Entrega'].apply(lambda x: True if x > 15 else False)
+
+#criando faixa de preço
+df['price'].describe()
+
+#Faixa de preço
+bins = [0, 40, 70, 130, 1000]
+labels = ['0-40', '41-70', '71-130', '130+']
+df['Faixa_Preco'] = pd.cut(df['price'], bins=bins, labels=labels, include_lowest=True)
+
+df_dash = df.copy()
+
+#deletar coluna
+df_dash.drop(columns=['order_purchase_timestamp', 'order_approved_at', 'order_delivered_timestamp', 'order_estimated_delivery_date','product_weight_g','product_length_cm','product_height_cm','product_width_cm','customer_zip_code_prefix'], inplace=True)
+
+df_dash.columns
+
+#altera nome da coluna price
+df_dash.rename(columns={'order_id': 'ID_pedido',
+                        'customer_id': 'ID_Cliente',
+                        'order_item_id': 'ID_quant_itens',
+                        'product_id': 'ID_Produto',
+                        'seller_id': 'ID_Vendedor',
+                        'price': 'Preço',
+                        'shipping_charges': 'Valor_Frete',
+                        'payment_type': 'Tipo_pagamento',
+                        'payment_installments': 'Parcelas',
+                        'payment_value': 'Valor_Total',
+                        'product_category_name': 'Categoria_Produto',
+                        'customer_city': 'Cidade_Cliente',
+                        'customer_state': 'Estado_Cliente',
+                        }, inplace=True)
+
+# Criar um dicionário mapeando estados para regiões
+regions = {
+    'AC': 'Norte', 'AP': 'Norte', 'AM': 'Norte', 'PA': 'Norte', 'RO': 'Norte', 'RR': 'Norte', 'TO': 'Norte',
+    'AL': 'Nordeste', 'BA': 'Nordeste', 'CE': 'Nordeste', 'MA': 'Nordeste', 'PB': 'Nordeste', 'PE': 'Nordeste', 'PI': 'Nordeste', 'RN': 'Nordeste', 'SE': 'Nordeste',
+    'DF': 'Centro-Oeste', 'GO': 'Centro-Oeste', 'MT': 'Centro-Oeste', 'MS': 'Centro-Oeste',
+    'ES': 'Sudeste', 'MG': 'Sudeste', 'RJ': 'Sudeste', 'SP': 'Sudeste',
+    'PR': 'Sul', 'RS': 'Sul', 'SC': 'Sul'
+}
+
+# Usar o método map para criar a nova coluna
+df_dash['Regiao'] = df_dash['Estado_Cliente'].map(regions)
+
+df_dash.head()
+
+"""## Considerações:
+
+Com estes recursos vamos ser capazes de trabalhar de forma mais eficaz e rapida nacriação dos dash via Power Bi, conseguindo extrair os KPI's mais eficientes.
 """
